@@ -18,7 +18,7 @@ App Android (Proyecto Unidad 3 · Desarrollo de aplicaciones móviles) con **reg
 | 2 | Capa `domain`: modelo `Game` e interfaces de repositorio | ✅ |
 | 3 | Backend: API FastAPI en proyecto aparte (`GameJamAPI`) | ✅ |
 | 4 | Capa `data`: DTOs, Mappers, Api, sesión, interceptor, repositorios | ✅ |
-| 5 | `AppContainer` + `Application` + Manifest | ⏳ |
+| 5 | `AppContainer` + `Application` + Manifest | ✅ |
 | 6 | UI: Login, Registro y CRUD con Navigation | ⏳ |
 
 ## Dominio
@@ -54,6 +54,16 @@ Contratos en `domain/repository`: `AuthRepository` (registro, login, sesión) y 
 | `data/repository` | `AuthRepositoryImpl` y `GameRepositoryImpl` |
 
 Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFound` (404), `Conflict` (409), `InvalidData` (400/422), `Network` (sin conexión), `Unknown`. Si `/games` responde 401, la sesión se borra para volver al Login.
+
+## Inyección de dependencias
+- `di/AppContainer`: interfaz con `authRepository` y `gameRepository`.
+- `di/DefaultAppContainer`: construye **una sola vez** `SharedPreferencesSessionStorage`, `OkHttpClient` (con `AuthInterceptor` y logging sólo en debug), `Retrofit` y los repositorios.
+- `GameJamApplication`: crea el contenedor en `onCreate()`; está registrada en el Manifest.
+
+## Red
+- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`), por defecto `http://10.0.2.2:8000/` para el emulador.
+- Para un teléfono físico, cambiarla por la IP de la PC en la red local (y agregarla en `app/src/debug/res/xml/network_security_config.xml`).
+- HTTP en texto plano permitido **sólo en debug** (`app/src/debug/AndroidManifest.xml`).
 
 ## Backend
 La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://10.0.2.2:8000/`. Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.

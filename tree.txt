@@ -7,6 +7,11 @@ GameJam/
 │   │   │           └── zukesito/
 │   │   │               └── gamejam/
 │   │   │                   └── ExampleInstrumentedTest.kt
+│   │   ├── debug/
+│   │   │   ├── res/
+│   │   │   │   └── xml/
+│   │   │   │       └── network_security_config.xml
+│   │   │   └── AndroidManifest.xml
 │   │   ├── main/
 │   │   │   ├── java/
 │   │   │   │   └── com/
@@ -32,6 +37,9 @@ GameJam/
 │   │   │   │               │   └── repository/
 │   │   │   │               │       ├── AuthRepositoryImpl.kt
 │   │   │   │               │       └── GameRepositoryImpl.kt
+│   │   │   │               ├── di/
+│   │   │   │               │   ├── AppContainer.kt
+│   │   │   │               │   └── DefaultAppContainer.kt
 │   │   │   │               ├── domain/
 │   │   │   │               │   ├── error/
 │   │   │   │               │   │   └── AppException.kt
@@ -46,6 +54,7 @@ GameJam/
 │   │   │   │               │       ├── Color.kt
 │   │   │   │               │       ├── Theme.kt
 │   │   │   │               │       └── Type.kt
+│   │   │   │               ├── GameJamApplication.kt
 │   │   │   │               └── MainActivity.kt
 │   │   │   ├── keepRules/
 │   │   │   │   └── rules.keep
