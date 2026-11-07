@@ -1,0 +1,66 @@
+GameJam/
+├── app/
+│   ├── src/
+│   │   ├── androidTest/
+│   │   │   └── java/
+│   │   │       └── com/
+│   │   │           └── zukesito/
+│   │   │               └── gamejam/
+│   │   │                   └── ExampleInstrumentedTest.kt
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/
+│   │   │   │       └── zukesito/
+│   │   │   │           └── gamejam/
+│   │   │   │               ├── domain/
+│   │   │   │               │   ├── model/
+│   │   │   │               │   │   ├── Game.kt
+│   │   │   │               │   │   └── User.kt
+│   │   │   │               │   └── repository/
+│   │   │   │               │       ├── AuthRepository.kt
+│   │   │   │               │       └── GameRepository.kt
+│   │   │   │               ├── ui/
+│   │   │   │               │   └── theme/
+│   │   │   │               │       ├── Color.kt
+│   │   │   │               │       ├── Theme.kt
+│   │   │   │               │       └── Type.kt
+│   │   │   │               └── MainActivity.kt
+│   │   │   ├── keepRules/
+│   │   │   │   └── rules.keep
+│   │   │   ├── res/
+│   │   │   │   ├── drawable/
+│   │   │   │   │   ├── ic_launcher_background.xml
+│   │   │   │   │   └── ic_launcher_foreground.xml
+│   │   │   │   ├── values/
+│   │   │   │   │   ├── colors.xml
+│   │   │   │   │   ├── strings.xml
+│   │   │   │   │   └── themes.xml
+│   │   │   │   └── xml/
+│   │   │   │       ├── backup_rules.xml
+│   │   │   │       └── data_extraction_rules.xml
+│   │   │   └── AndroidManifest.xml
+│   │   └── test/
+│   │       └── java/
+│   │           └── com/
+│   │               └── zukesito/
+│   │                   └── gamejam/
+│   │                       └── ExampleUnitTest.kt
+│   ├── .gitignore
+│   └── build.gradle.kts
+├── gradle/
+│   ├── wrapper/
+│   │   ├── gradle-wrapper.jar
+│   │   └── gradle-wrapper.properties
+│   ├── gradle-daemon-jvm.properties
+│   └── libs.versions.toml
+├── .gitignore
+├── build.gradle.kts
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── local.properties
+├── README.md
+├── settings.gradle.kts
+└── tree.txt
+
+(se omiten .git, .gradle, .idea, .kotlin, build/ y res/mipmap-*)
