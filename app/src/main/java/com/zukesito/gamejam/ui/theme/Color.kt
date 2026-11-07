@@ -2,10 +2,15 @@ package com.zukesito.gamejam.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Palette inspired by the Steam client, dark only
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val SteamNavyDark = Color(0xFF171A21)
+val SteamNavy = Color(0xFF1B2838)
+val SteamNavyLight = Color(0xFF213246)
+val SteamSlate = Color(0xFF2A475E)
+val SteamSteel = Color(0xFF417A9B)
+val SteamBlue = Color(0xFF66C0F4)
+val SteamText = Color(0xFFC7D5E0)
+val SteamTextMuted = Color(0xFF8F98A0)
+val SteamGreen = Color(0xFFA4D007)
+val SteamRed = Color(0xFFE5544B)

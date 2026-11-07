@@ -50,6 +50,34 @@ GameJam/
 │   │   │   │               │       ├── AuthRepository.kt
 │   │   │   │               │       └── GameRepository.kt
 │   │   │   │               ├── ui/
+│   │   │   │               │   ├── auth/
+│   │   │   │               │   │   ├── login/
+│   │   │   │               │   │   │   ├── LoginScreen.kt
+│   │   │   │               │   │   │   ├── LoginUiState.kt
+│   │   │   │               │   │   │   └── LoginViewModel.kt
+│   │   │   │               │   │   ├── register/
+│   │   │   │               │   │   │   ├── RegisterScreen.kt
+│   │   │   │               │   │   │   ├── RegisterUiState.kt
+│   │   │   │               │   │   │   └── RegisterViewModel.kt
+│   │   │   │               │   │   └── AuthValidation.kt
+│   │   │   │               │   ├── common/
+│   │   │   │               │   │   ├── ErrorMessages.kt
+│   │   │   │               │   │   └── ViewModelExtensions.kt
+│   │   │   │               │   ├── components/
+│   │   │   │               │   │   ├── ErrorText.kt
+│   │   │   │               │   │   ├── FormTextField.kt
+│   │   │   │               │   │   ├── FullScreenStates.kt
+│   │   │   │               │   │   ├── LoadingButton.kt
+│   │   │   │               │   │   └── PasswordTextField.kt
+│   │   │   │               │   ├── games/
+│   │   │   │               │   │   └── list/
+│   │   │   │               │   │       ├── GameListItem.kt
+│   │   │   │               │   │       ├── GameListScreen.kt
+│   │   │   │               │   │       ├── GameListUiState.kt
+│   │   │   │               │   │       └── GameListViewModel.kt
+│   │   │   │               │   ├── navigation/
+│   │   │   │               │   │   ├── AppNavHost.kt
+│   │   │   │               │   │   └── AppRoutes.kt
 │   │   │   │               │   └── theme/
 │   │   │   │               │       ├── Color.kt
 │   │   │   │               │       ├── Theme.kt

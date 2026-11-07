@@ -19,7 +19,10 @@ App Android (Proyecto Unidad 3 · Desarrollo de aplicaciones móviles) con **reg
 | 3 | Backend: API FastAPI en proyecto aparte (`GameJamAPI`) | ✅ |
 | 4 | Capa `data`: DTOs, Mappers, Api, sesión, interceptor, repositorios | ✅ |
 | 5 | `AppContainer` + `Application` + Manifest | ✅ |
-| 6 | UI: Login, Registro y CRUD con Navigation | ⏳ |
+| 6a | UI: navegación, Login, Registro y cierre de sesión | ✅ |
+| 6b | UI: lista de juegos (Home) con carga, vacío y error | ✅ |
+| 6c | UI: detalle y eliminar con confirmación | ⏳ |
+| 6d | UI: formulario de crear y editar | ⏳ |
 
 ## Dominio
 **Game** (recurso principal: juego de la bitácora)
@@ -61,12 +64,36 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 - `GameJamApplication`: crea el contenedor en `onCreate()`; está registrada en el Manifest.
 
 ## Red
-- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`), por defecto `http://10.0.2.2:8000/` para el emulador.
-- Para un teléfono físico, cambiarla por la IP de la PC en la red local (y agregarla en `app/src/debug/res/xml/network_security_config.xml`).
-- HTTP en texto plano permitido **sólo en debug** (`app/src/debug/AndroidManifest.xml`).
+- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`): `http://localhost:8000/`.
+- El emulador no llegaba a la API por `10.0.2.2`, así que se usa **`adb reverse`**, que conecta el puerto 8000 del emulador con el de la PC.
+- **Cada vez que se enciende el emulador**, ejecutar en la pestaña **Terminal** de Android Studio (Alt+F12):
+  ```powershell
+  & "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" reverse tcp:8000 tcp:8000
+  ```
+  Comprobar con `... adb.exe reverse --list` (debe mostrar `tcp:8000 tcp:8000`).
+- HTTP en texto plano permitido **sólo en debug** para `localhost` y `10.0.2.2` (`app/src/debug/res/xml/network_security_config.xml`).
+- Para un teléfono físico: usar la IP de la PC en la red local y agregarla en ese mismo archivo.
+
+## Interfaz
+| Paquete | Contenido |
+|---|---|
+| `ui/navigation` | Rutas tipadas (`AppRoutes`) y `AppNavHost` |
+| `ui/auth` | Login y Registro (Screen + ViewModel + UiState) y reglas de validación (`AuthValidation`) |
+| `ui/games/list` | Home: `LazyColumn` de juegos (`GameListItem`), estados de carga, vacío y error con reintento, y cierre de sesión |
+| `ui/components` | `FormTextField`, `PasswordTextField`, `LoadingButton`, `ErrorText`, `FullScreenLoading`, `FullScreenMessage`, `FullScreenError` |
+| `ui/common` | `appContainer()` para las factories y `toMessageRes()` para mensajes de error |
+
+- Cada pantalla tiene un `XScreen` (observa el `StateFlow` con `collectAsStateWithLifecycle`) y un `XContent` sin estado.
+- Los ViewModels reciben el repositorio por constructor y se crean con `viewModelFactory { initializer { … } }`.
+- Al iniciar sesión, registrarse o cerrar sesión se limpia la pila de navegación, así que Atrás no regresa.
+- Si hay sesión guardada, la app abre directo en Home.
+- Home recarga la lista cada vez que vuelve a mostrarse (`ON_RESUME`), así se actualiza después de crear, editar o eliminar.
+- Si la API responde 401 al listar, la sesión se borra y la app vuelve al Login.
+- Textos de la interfaz en `res/values/strings.xml`.
+- Paleta oscura inspirada en el cliente de Steam (`ui/theme/Color.kt`); sin modo claro ni color dinámico.
 
 ## Backend
-La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://10.0.2.2:8000/`. Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
+La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://localhost:8000/` (con `adb reverse`, ver sección Red). Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
 
 ## Dependencias agregadas
 | Librería | Versión | Uso |

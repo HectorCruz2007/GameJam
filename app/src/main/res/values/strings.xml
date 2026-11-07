@@ -1,3 +1,47 @@
 <resources>
     <string name="app_name">GameJam</string>
+    <string name="app_subtitle">Bitácora de videojuegos</string>
+
+    <!-- Labels -->
+    <string name="label_name">Nombre</string>
+    <string name="label_email">Correo</string>
+    <string name="label_password">Contraseña</string>
+    <string name="label_confirm_password">Confirmar contraseña</string>
+
+    <!-- Actions -->
+    <string name="action_login">Iniciar sesión</string>
+    <string name="action_register">Crear cuenta</string>
+    <string name="action_go_to_register">¿No tienes cuenta? Regístrate</string>
+    <string name="action_go_to_login">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="action_logout">Cerrar sesión</string>
+    <string name="action_show">Mostrar</string>
+    <string name="action_hide">Ocultar</string>
+    <string name="action_retry">Reintentar</string>
+
+    <!-- Titles -->
+    <string name="title_register">Crear cuenta</string>
+    <string name="title_game_list">Mis juegos</string>
+    <string name="empty_game_list">Aún no has registrado juegos</string>
+
+    <!-- Game list item -->
+    <string name="format_hours_played">%1$d h jugadas</string>
+    <string name="format_rating">%1$d/10</string>
+    <string name="status_completed">Terminado</string>
+    <string name="status_in_progress">En progreso</string>
+
+    <!-- Validation errors -->
+    <string name="error_required">Campo obligatorio</string>
+    <string name="error_invalid_email">Correo no válido</string>
+    <string name="error_password_length">Mínimo 8 caracteres</string>
+    <string name="error_password_mismatch">Las contraseñas no coinciden</string>
+    <string name="error_name_length">Máximo 60 caracteres</string>
+
+    <!-- Request errors -->
+    <string name="error_invalid_credentials">Correo o contraseña incorrectos</string>
+    <string name="error_email_taken">Ese correo ya está registrado</string>
+    <string name="error_network">No se pudo conectar con el servidor</string>
+    <string name="error_session_expired">Tu sesión expiró, inicia sesión de nuevo</string>
+    <string name="error_not_found">El registro ya no existe</string>
+    <string name="error_invalid_data">Los datos enviados no son válidos</string>
+    <string name="error_unknown">Ocurrió un error inesperado</string>
 </resources>
