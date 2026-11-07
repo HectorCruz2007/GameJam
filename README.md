@@ -64,15 +64,14 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 - `GameJamApplication`: crea el contenedor en `onCreate()`; está registrada en el Manifest.
 
 ## Red
-- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`): `http://10.0.2.2:8000/`, el alias del emulador para la PC.
-- Cuando la API se despliegue en la nube, cambiar esa URL por la pública (con HTTPS no hace falta tocar la configuración de red).
-- Si el emulador no llega a `10.0.2.2`, alternativa local: ejecutar en la pestaña **Terminal** de Android Studio (Alt+F12)
+- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`): **`https://gamejam-api.duckdns.org/`**, la API desplegada en AWS (EC2 + Caddy con HTTPS de Let's Encrypt).
+- La API en la nube sólo responde mientras la sesión de AWS Learner Lab está activa. Comprobar antes de usar la app: `https://gamejam-api.duckdns.org/docs`.
+- Desarrollo local: cambiar la URL a `http://10.0.2.2:8000/` (alias del emulador para la PC). Si el emulador no llega a `10.0.2.2`, ejecutar en la pestaña **Terminal** de Android Studio (Alt+F12)
   ```powershell
   & "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" reverse tcp:8000 tcp:8000
   ```
-  y usar temporalmente `http://localhost:8000/` como URL base. Hay que repetir el comando cada vez que se enciende el emulador.
-- HTTP en texto plano permitido **sólo en debug** para `10.0.2.2` y `localhost` (`app/src/debug/res/xml/network_security_config.xml`).
-- Para un teléfono físico: usar la IP de la PC en la red local y agregarla en ese mismo archivo.
+  y usar `http://localhost:8000/`. Hay que repetir el comando cada vez que se enciende el emulador.
+- HTTP en texto plano permitido **sólo en debug** para `10.0.2.2` y `localhost` (`app/src/debug/res/xml/network_security_config.xml`); la API en la nube usa HTTPS y no lo necesita.
 
 ## Interfaz
 | Paquete | Contenido |
@@ -99,7 +98,7 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 - Paleta oscura inspirada en el cliente de Steam (`ui/theme/Color.kt`); sin modo claro ni color dinámico.
 
 ## Backend
-La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://10.0.2.2:8000/` (ver sección Red). Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
+La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Está desplegada en `https://gamejam-api.duckdns.org/`; en local se consume en `http://10.0.2.2:8000/` (ver sección Red). Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
 
 ## Dependencias agregadas
 | Librería | Versión | Uso |

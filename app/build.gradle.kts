@@ -19,8 +19,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Emulator alias for the host machine, replace with the cloud URL after deploy
-        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8000/\"")
+        // Cloud API on AWS behind Caddy, use http://10.0.2.2:8000/ for a local API
+        buildConfigField("String", "API_BASE_URL", "\"https://gamejam-api.duckdns.org/\"")
     }
 
     buildTypes {
