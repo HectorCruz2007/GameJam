@@ -20,7 +20,8 @@ fun FormTextField(
     @StringRes errorRes: Int? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    trailingIcon: @Composable (() -> Unit)? = null
+    trailingIcon: @Composable (() -> Unit)? = null,
+    readOnly: Boolean = false
 ) {
     OutlinedTextField(
         value = value,
@@ -33,6 +34,7 @@ fun FormTextField(
             null
         },
         singleLine = true,
+        readOnly = readOnly,
         keyboardOptions = keyboardOptions,
         visualTransformation = visualTransformation,
         trailingIcon = trailingIcon,

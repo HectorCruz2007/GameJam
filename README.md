@@ -22,7 +22,7 @@ App Android (Proyecto Unidad 3 · Desarrollo de aplicaciones móviles) con **reg
 | 6a | UI: navegación, Login, Registro y cierre de sesión | ✅ |
 | 6b | UI: lista de juegos (Home) con carga, vacío y error | ✅ |
 | 6c | UI: detalle y eliminar con confirmación | ✅ |
-| 6d | UI: formulario de crear y editar | ⏳ |
+| 6d | UI: formulario de crear y editar | ✅ |
 
 ## Dominio
 **Game** (recurso principal: juego de la bitácora)
@@ -79,8 +79,9 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 |---|---|
 | `ui/navigation` | Rutas tipadas (`AppRoutes`) y `AppNavHost` |
 | `ui/auth` | Login y Registro (Screen + ViewModel + UiState) y reglas de validación (`AuthValidation`) |
-| `ui/games/detail` | Detalle con todos los atributos (`DetailRow`), eliminar con `DeleteGameDialog` y Snackbar ante errores |
-| `ui/games/list` | Home: `LazyColumn` de juegos (`GameListItem`), estados de carga, vacío y error con reintento, y cierre de sesión |
+| `ui/games/detail` | Detalle con todos los atributos (`DetailRow`), botón Editar, eliminar con `DeleteGameDialog` y Snackbar ante errores |
+| `ui/games/form` | Formulario reutilizable para crear y editar (`GameFormScreen`), reglas en `GameFormValidation` y `StartDatePickerDialog` que bloquea fechas futuras |
+| `ui/games/list` | Home: `LazyColumn` de juegos (`GameListItem`), estados de carga, vacío y error con reintento, botón "Agregar juego" y cierre de sesión |
 | `ui/components` | `FormTextField`, `PasswordTextField`, `LoadingButton`, `ErrorText`, `FullScreenLoading`, `FullScreenMessage`, `FullScreenError`, `UserMessageEffect` (Snackbar de un solo uso) |
 | `ui/common` | `appContainer()` para las factories, `toMessageRes()` para mensajes de error y `toDisplayText()` para fechas ("15 de octubre de 2026") |
 
@@ -90,7 +91,8 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 - Si hay sesión guardada, la app abre directo en Home.
 - Home recarga la lista cada vez que vuelve a mostrarse (`ON_RESUME`), así se actualiza después de crear, editar o eliminar.
 - Si la API responde 401, la sesión se borra y la app vuelve al Login.
-- Retroalimentación (RF-10): al eliminar, el detalle deja un mensaje en el `savedStateHandle` de Home (`KEY_USER_MESSAGE`) y Home lo muestra en un Snackbar. Los errores de recarga o de eliminación también salen en Snackbar.
+- Retroalimentación (RF-10): al crear, editar o eliminar, la pantalla deja un mensaje en el `savedStateHandle` de la anterior (`KEY_USER_MESSAGE`) y ésta lo muestra en un Snackbar ("Juego agregado", "Cambios guardados", "Juego eliminado"). Los errores de recarga, guardado o eliminación también salen en Snackbar.
+- El formulario usa `GameFormRoute(gameId)`: `NEW_GAME_ID` (0) crea un juego nuevo; cualquier otro id lo edita con los datos precargados.
 - Textos de la interfaz en `res/values/strings.xml`.
 - Paleta oscura inspirada en el cliente de Steam (`ui/theme/Color.kt`); sin modo claro ni color dinámico.
 

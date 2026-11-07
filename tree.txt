@@ -78,6 +78,12 @@ GameJam/
 │   │   │   │               │   │   │   ├── GameDetailScreen.kt
 │   │   │   │               │   │   │   ├── GameDetailUiState.kt
 │   │   │   │               │   │   │   └── GameDetailViewModel.kt
+│   │   │   │               │   │   ├── form/
+│   │   │   │               │   │   │   ├── GameFormScreen.kt
+│   │   │   │               │   │   │   ├── GameFormUiState.kt
+│   │   │   │               │   │   │   ├── GameFormValidation.kt
+│   │   │   │               │   │   │   ├── GameFormViewModel.kt
+│   │   │   │               │   │   │   └── StartDatePickerDialog.kt
 │   │   │   │               │   │   └── list/
 │   │   │   │               │   │       ├── GameListItem.kt
 │   │   │   │               │   │       ├── GameListScreen.kt

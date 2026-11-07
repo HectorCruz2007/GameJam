@@ -1,5 +1,6 @@
 package com.zukesito.gamejam.ui.games.detail
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -43,10 +45,13 @@ import com.zukesito.gamejam.ui.games.list.CompletionStatusText
 import com.zukesito.gamejam.ui.theme.GameJamTheme
 import java.time.LocalDate
 
-// Shows every attribute of one game and allows deleting it
+// Shows every attribute of one game and allows editing or deleting it
 @Composable
 fun GameDetailScreen(
+    @StringRes resultMessageRes: Int?,
+    onResultMessageShown: () -> Unit,
     onBack: () -> Unit,
+    onEditClick: (Int) -> Unit,
     onDeleted: () -> Unit,
     onLoggedOut: () -> Unit,
     viewModel: GameDetailViewModel = viewModel(factory = GameDetailViewModel.Factory)
@@ -63,6 +68,11 @@ fun GameDetailScreen(
         if (uiState.isLoggedOut) onLoggedOut()
     }
     UserMessageEffect(
+        messageRes = resultMessageRes,
+        snackbarHostState = snackbarHostState,
+        onShown = onResultMessageShown
+    )
+    UserMessageEffect(
         messageRes = uiState.userMessageRes,
         snackbarHostState = snackbarHostState,
         onShown = viewModel::onUserMessageShown
@@ -72,6 +82,7 @@ fun GameDetailScreen(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
         onBack = onBack,
+        onEditClick = onEditClick,
         onRetry = viewModel::loadGame,
         onDeleteClick = viewModel::onDeleteClick,
         onDeleteConfirm = viewModel::onDeleteConfirm,
@@ -85,6 +96,7 @@ private fun GameDetailContent(
     uiState: GameDetailUiState,
     snackbarHostState: SnackbarHostState,
     onBack: () -> Unit,
+    onEditClick: (Int) -> Unit,
     onRetry: () -> Unit,
     onDeleteClick: () -> Unit,
     onDeleteConfirm: () -> Unit,
@@ -112,6 +124,7 @@ private fun GameDetailContent(
                 uiState.game != null -> GameDetailBody(
                     game = uiState.game,
                     isDeleting = uiState.isDeleting,
+                    onEditClick = { onEditClick(uiState.game.id) },
                     onDeleteClick = onDeleteClick
                 )
                 uiState.errorRes != null -> FullScreenError(messageRes = uiState.errorRes, onRetry = onRetry)
@@ -133,6 +146,7 @@ private fun GameDetailContent(
 private fun GameDetailBody(
     game: Game,
     isDeleting: Boolean,
+    onEditClick: () -> Unit,
     onDeleteClick: () -> Unit
 ) {
     Column(
@@ -156,6 +170,13 @@ private fun GameDetailBody(
             CompletionStatusText(completed = game.completed)
         }
 
+        OutlinedButton(
+            onClick = onEditClick,
+            enabled = !isDeleting,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(stringResource(R.string.action_edit))
+        }
         Button(
             onClick = onDeleteClick,
             enabled = !isDeleting,
@@ -185,6 +206,7 @@ private fun GameDetailContentPreview() {
             ),
             snackbarHostState = remember { SnackbarHostState() },
             onBack = {},
+            onEditClick = {},
             onRetry = {},
             onDeleteClick = {},
             onDeleteConfirm = {},

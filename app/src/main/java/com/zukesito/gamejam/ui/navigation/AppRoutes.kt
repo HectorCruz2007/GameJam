@@ -15,3 +15,9 @@ data object GameListRoute
 
 @Serializable
 data class GameDetailRoute(val gameId: Int)
+
+// Id used by the form to create a new game instead of editing one
+const val NEW_GAME_ID = 0
+
+@Serializable
+data class GameFormRoute(val gameId: Int = NEW_GAME_ID)

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -46,6 +47,7 @@ fun GameListScreen(
     @StringRes resultMessageRes: Int?,
     onResultMessageShown: () -> Unit,
     onGameClick: (Int) -> Unit,
+    onAddClick: () -> Unit,
     onLoggedOut: () -> Unit,
     viewModel: GameListViewModel = viewModel(factory = GameListViewModel.Factory)
 ) {
@@ -73,6 +75,7 @@ fun GameListScreen(
         uiState = uiState,
         snackbarHostState = snackbarHostState,
         onGameClick = onGameClick,
+        onAddClick = onAddClick,
         onRetry = viewModel::loadGames,
         onLogoutClick = viewModel::onLogoutClick
     )
@@ -84,6 +87,7 @@ private fun GameListContent(
     uiState: GameListUiState,
     snackbarHostState: SnackbarHostState,
     onGameClick: (Int) -> Unit,
+    onAddClick: () -> Unit,
     onRetry: () -> Unit,
     onLogoutClick: () -> Unit
 ) {
@@ -98,7 +102,12 @@ private fun GameListContent(
                 }
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(onClick = onAddClick) {
+                Text(stringResource(R.string.action_add_game))
+            }
+        }
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -127,7 +136,8 @@ private fun GameListContent(
 @Composable
 private fun GameList(games: List<Game>, onGameClick: (Int) -> Unit) {
     LazyColumn(
-        contentPadding = PaddingValues(16.dp),
+        // Extra bottom space so the button does not cover the last game
+        contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 88.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxSize()
     ) {
@@ -151,6 +161,7 @@ private fun GameListContentPreview() {
             ),
             snackbarHostState = remember { SnackbarHostState() },
             onGameClick = {},
+            onAddClick = {},
             onRetry = {},
             onLogoutClick = {}
         )

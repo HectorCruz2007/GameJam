@@ -20,6 +20,11 @@
     <string name="action_back">Volver</string>
     <string name="action_delete">Eliminar</string>
     <string name="action_cancel">Cancelar</string>
+    <string name="action_add_game">Agregar juego</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_choose">Elegir</string>
+    <string name="action_accept">Aceptar</string>
 
     <!-- Titles -->
     <string name="title_register">Crear cuenta</string>
@@ -42,8 +47,16 @@
     <string name="dialog_delete_title">¿Eliminar juego?</string>
     <string name="dialog_delete_message">Se eliminará \"%1$s\" de tu bitácora. Esta acción no se puede deshacer.</string>
 
+    <!-- Game form -->
+    <string name="title_new_game">Nuevo juego</string>
+    <string name="title_edit_game">Editar juego</string>
+    <string name="label_title">Título</string>
+    <string name="label_completed">Terminado</string>
+
     <!-- Operation results -->
     <string name="message_game_deleted">Juego eliminado</string>
+    <string name="message_game_created">Juego agregado</string>
+    <string name="message_game_updated">Cambios guardados</string>
 
     <!-- Validation errors -->
     <string name="error_required">Campo obligatorio</string>
@@ -51,6 +64,11 @@
     <string name="error_password_length">Mínimo 8 caracteres</string>
     <string name="error_password_mismatch">Las contraseñas no coinciden</string>
     <string name="error_name_length">Máximo 60 caracteres</string>
+    <string name="error_title_length">Máximo 60 caracteres</string>
+    <string name="error_platform_length">Máximo 40 caracteres</string>
+    <string name="error_invalid_number">Ingresa un número entero</string>
+    <string name="error_rating_range">Debe estar entre 1 y 10</string>
+    <string name="error_future_date">No puede ser una fecha futura</string>
 
     <!-- Request errors -->
     <string name="error_invalid_credentials">Correo o contraseña incorrectos</string>
