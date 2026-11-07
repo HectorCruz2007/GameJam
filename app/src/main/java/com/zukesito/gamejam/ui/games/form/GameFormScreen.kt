@@ -48,7 +48,7 @@ import com.zukesito.gamejam.ui.theme.GameJamTheme
 fun GameFormScreen(
     onBack: () -> Unit,
     onSaved: (messageRes: Int) -> Unit,
-    onLoggedOut: () -> Unit,
+    onSessionExpired: () -> Unit,
     viewModel: GameFormViewModel = viewModel(factory = GameFormViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -57,8 +57,8 @@ fun GameFormScreen(
     LaunchedEffect(uiState.savedMessageRes) {
         uiState.savedMessageRes?.let(onSaved)
     }
-    LaunchedEffect(uiState.isLoggedOut) {
-        if (uiState.isLoggedOut) onLoggedOut()
+    LaunchedEffect(uiState.isSessionExpired) {
+        if (uiState.isSessionExpired) onSessionExpired()
     }
     UserMessageEffect(
         messageRes = uiState.userMessageRes,

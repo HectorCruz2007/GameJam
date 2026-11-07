@@ -126,7 +126,7 @@ class GameFormViewModel(
         _uiState.update {
             when {
                 error is AppException.Unauthorized ->
-                    it.copy(isLoading = false, isSaving = false, isLoggedOut = true)
+                    it.copy(isLoading = false, isSaving = false, isSessionExpired = true)
                 isLoadError ->
                     it.copy(isLoading = false, loadErrorRes = error.toMessageRes())
                 else ->

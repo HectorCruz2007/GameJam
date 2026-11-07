@@ -49,6 +49,7 @@ fun GameListScreen(
     onGameClick: (Int) -> Unit,
     onAddClick: () -> Unit,
     onLoggedOut: () -> Unit,
+    onSessionExpired: () -> Unit,
     viewModel: GameListViewModel = viewModel(factory = GameListViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -59,6 +60,9 @@ fun GameListScreen(
 
     LaunchedEffect(uiState.isLoggedOut) {
         if (uiState.isLoggedOut) onLoggedOut()
+    }
+    LaunchedEffect(uiState.isSessionExpired) {
+        if (uiState.isSessionExpired) onSessionExpired()
     }
     UserMessageEffect(
         messageRes = resultMessageRes,

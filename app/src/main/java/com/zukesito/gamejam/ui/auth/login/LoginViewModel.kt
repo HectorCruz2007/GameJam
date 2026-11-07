@@ -1,11 +1,14 @@
 package com.zukesito.gamejam.ui.auth.login
 
 import androidx.annotation.StringRes
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.toRoute
 import com.zukesito.gamejam.R
 import com.zukesito.gamejam.domain.error.AppException
 import com.zukesito.gamejam.domain.repository.AuthRepository
@@ -13,6 +16,7 @@ import com.zukesito.gamejam.ui.auth.validateEmail
 import com.zukesito.gamejam.ui.auth.validateRequired
 import com.zukesito.gamejam.ui.common.appContainer
 import com.zukesito.gamejam.ui.common.toMessageRes
+import com.zukesito.gamejam.ui.navigation.LoginRoute
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,10 +24,20 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
+    savedStateHandle: SavedStateHandle,
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(LoginUiState())
+    // Starts with the expired session notice when the route asks for it
+    private val _uiState = MutableStateFlow(
+        LoginUiState(
+            requestError = if (savedStateHandle.toRoute<LoginRoute>().sessionExpired) {
+                R.string.error_session_expired
+            } else {
+                null
+            }
+        )
+    )
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
     fun onEmailChange(email: String) {
@@ -64,7 +78,7 @@ class LoginViewModel(
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer { LoginViewModel(appContainer().authRepository) }
+            initializer { LoginViewModel(createSavedStateHandle(), appContainer().authRepository) }
         }
     }
 }

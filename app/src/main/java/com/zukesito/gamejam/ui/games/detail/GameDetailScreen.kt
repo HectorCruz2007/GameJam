@@ -53,7 +53,7 @@ fun GameDetailScreen(
     onBack: () -> Unit,
     onEditClick: (Int) -> Unit,
     onDeleted: () -> Unit,
-    onLoggedOut: () -> Unit,
+    onSessionExpired: () -> Unit,
     viewModel: GameDetailViewModel = viewModel(factory = GameDetailViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -64,8 +64,8 @@ fun GameDetailScreen(
     LaunchedEffect(uiState.isDeleted) {
         if (uiState.isDeleted) onDeleted()
     }
-    LaunchedEffect(uiState.isLoggedOut) {
-        if (uiState.isLoggedOut) onLoggedOut()
+    LaunchedEffect(uiState.isSessionExpired) {
+        if (uiState.isSessionExpired) onSessionExpired()
     }
     UserMessageEffect(
         messageRes = resultMessageRes,

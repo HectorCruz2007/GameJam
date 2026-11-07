@@ -37,7 +37,7 @@ class GameListViewModel(
                         when {
                             // The repository already cleared the session on 401
                             error is AppException.Unauthorized ->
-                                it.copy(isLoading = false, isLoggedOut = true)
+                                it.copy(isLoading = false, isSessionExpired = true)
                             // Keep the visible list and report the error in a snackbar
                             it.games.isNotEmpty() ->
                                 it.copy(isLoading = false, userMessageRes = error.toMessageRes())

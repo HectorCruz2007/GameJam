@@ -21,6 +21,9 @@ internal suspend fun <T> safeApiCall(
     Result.failure(AppException.Network())
 } catch (exception: SerializationException) {
     Result.failure(AppException.Unknown())
+} catch (exception: Exception) {
+    // Any other failure, for example a bad date format, must not crash the app
+    Result.failure(AppException.Unknown())
 }
 
 private fun HttpException.toAppException(): AppException = when (code()) {

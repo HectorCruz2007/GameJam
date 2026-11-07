@@ -4,8 +4,9 @@ import kotlinx.serialization.Serializable
 
 // Type safe destinations for Navigation Compose
 
+// sessionExpired shows a notice when the token was rejected by the API
 @Serializable
-data object LoginRoute
+data class LoginRoute(val sessionExpired: Boolean = false)
 
 @Serializable
 data object RegisterRoute

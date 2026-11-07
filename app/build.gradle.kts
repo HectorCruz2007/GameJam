@@ -19,8 +19,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Requires adb reverse tcp:8000 tcp:8000 on every emulator start
-        buildConfigField("String", "API_BASE_URL", "\"http://localhost:8000/\"")
+        // Emulator alias for the host machine, replace with the cloud URL after deploy
+        buildConfigField("String", "API_BASE_URL", "\"http://10.0.2.2:8000/\"")
     }
 
     buildTypes {

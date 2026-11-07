@@ -23,7 +23,7 @@ data class GameFormUiState(
     val isSaving: Boolean = false,
     @StringRes val savedMessageRes: Int? = null,
     @StringRes val userMessageRes: Int? = null,
-    val isLoggedOut: Boolean = false
+    val isSessionExpired: Boolean = false
 ) {
     val hasErrors: Boolean
         get() = listOf(titleError, platformError, hoursPlayedError, ratingError, startDateError)

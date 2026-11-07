@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
 
         // An active session skips the login screen
         val authRepository = (application as GameJamApplication).container.authRepository
-        val startDestination: Any = if (authRepository.isLoggedIn()) GameListRoute else LoginRoute
+        val startDestination: Any = if (authRepository.isLoggedIn()) GameListRoute else LoginRoute()
 
         setContent {
             GameJamTheme {

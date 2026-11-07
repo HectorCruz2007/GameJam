@@ -56,7 +56,7 @@ Contratos en `domain/repository`: `AuthRepository` (registro, login, sesión) y 
 | `data/mapper` | Mappers DTO ↔ dominio (`GameMapper`, `UserMapper`) |
 | `data/repository` | `AuthRepositoryImpl` y `GameRepositoryImpl` |
 
-Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFound` (404), `Conflict` (409), `InvalidData` (400/422), `Network` (sin conexión), `Unknown`. Si `/games` responde 401, la sesión se borra para volver al Login.
+Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFound` (404), `Conflict` (409), `InvalidData` (400/422), `Network` (sin conexión), `Unknown` (cualquier otro error, por ejemplo una fecha con formato inesperado; la app nunca se cierra por eso). Si `/games` responde 401, la sesión se borra para volver al Login.
 
 ## Inyección de dependencias
 - `di/AppContainer`: interfaz con `authRepository` y `gameRepository`.
@@ -64,14 +64,14 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 - `GameJamApplication`: crea el contenedor en `onCreate()`; está registrada en el Manifest.
 
 ## Red
-- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`): `http://localhost:8000/`.
-- El emulador no llegaba a la API por `10.0.2.2`, así que se usa **`adb reverse`**, que conecta el puerto 8000 del emulador con el de la PC.
-- **Cada vez que se enciende el emulador**, ejecutar en la pestaña **Terminal** de Android Studio (Alt+F12):
+- URL base en `BuildConfig.API_BASE_URL` (`app/build.gradle.kts`): `http://10.0.2.2:8000/`, el alias del emulador para la PC.
+- Cuando la API se despliegue en la nube, cambiar esa URL por la pública (con HTTPS no hace falta tocar la configuración de red).
+- Si el emulador no llega a `10.0.2.2`, alternativa local: ejecutar en la pestaña **Terminal** de Android Studio (Alt+F12)
   ```powershell
   & "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" reverse tcp:8000 tcp:8000
   ```
-  Comprobar con `... adb.exe reverse --list` (debe mostrar `tcp:8000 tcp:8000`).
-- HTTP en texto plano permitido **sólo en debug** para `localhost` y `10.0.2.2` (`app/src/debug/res/xml/network_security_config.xml`).
+  y usar temporalmente `http://localhost:8000/` como URL base. Hay que repetir el comando cada vez que se enciende el emulador.
+- HTTP en texto plano permitido **sólo en debug** para `10.0.2.2` y `localhost` (`app/src/debug/res/xml/network_security_config.xml`).
 - Para un teléfono físico: usar la IP de la PC en la red local y agregarla en ese mismo archivo.
 
 ## Interfaz
@@ -90,14 +90,16 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 - Al iniciar sesión, registrarse o cerrar sesión se limpia la pila de navegación, así que Atrás no regresa.
 - Si hay sesión guardada, la app abre directo en Home.
 - Home recarga la lista cada vez que vuelve a mostrarse (`ON_RESUME`), así se actualiza después de crear, editar o eliminar.
-- Si la API responde 401, la sesión se borra y la app vuelve al Login.
+- Si la API responde 401, la sesión se borra y la app vuelve al Login mostrando "Tu sesión expiró, inicia sesión de nuevo" (`LoginRoute(sessionExpired = true)`).
+- Los clics que navegan sólo se atienden si la pantalla está activa (`whenResumed`), así un doble toque no abre dos pantallas ni vacía la pila.
+- Cada mensaje de Snackbar se marca como mostrado antes de enseñarse, así no se repite al volver a una pantalla.
 - Retroalimentación (RF-10): al crear, editar o eliminar, la pantalla deja un mensaje en el `savedStateHandle` de la anterior (`KEY_USER_MESSAGE`) y ésta lo muestra en un Snackbar ("Juego agregado", "Cambios guardados", "Juego eliminado"). Los errores de recarga, guardado o eliminación también salen en Snackbar.
 - El formulario usa `GameFormRoute(gameId)`: `NEW_GAME_ID` (0) crea un juego nuevo; cualquier otro id lo edita con los datos precargados.
 - Textos de la interfaz en `res/values/strings.xml`.
 - Paleta oscura inspirada en el cliente de Steam (`ui/theme/Color.kt`); sin modo claro ni color dinámico.
 
 ## Backend
-La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://localhost:8000/` (con `adb reverse`, ver sección Red). Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
+La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://10.0.2.2:8000/` (ver sección Red). Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
 
 ## Dependencias agregadas
 | Librería | Versión | Uso |

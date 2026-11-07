@@ -71,7 +71,7 @@ class GameDetailViewModel(
         _uiState.update {
             when {
                 error is AppException.Unauthorized ->
-                    it.copy(isLoading = false, isDeleting = false, isLoggedOut = true)
+                    it.copy(isLoading = false, isDeleting = false, isSessionExpired = true)
                 isLoadError && it.game == null ->
                     it.copy(isLoading = false, errorRes = error.toMessageRes())
                 else ->

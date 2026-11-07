@@ -11,5 +11,5 @@ data class GameDetailUiState(
     val isDeleting: Boolean = false,
     val isDeleted: Boolean = false,
     @StringRes val userMessageRes: Int? = null,
-    val isLoggedOut: Boolean = false
+    val isSessionExpired: Boolean = false
 )
