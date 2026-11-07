@@ -16,8 +16,8 @@ App Android (Proyecto Unidad 3 · Desarrollo de aplicaciones móviles) con **reg
 | 0 | Repositorio Git | ✅ |
 | 1 | Dependencias (red, navegación, serialización, lifecycle-compose) | ✅ |
 | 2 | Capa `domain`: modelo `Game` e interfaces de repositorio | ✅ |
-| 3 | Backend json-server + json-server-auth | ⏳ |
-| 4 | Capa `data`: DTOs, Mappers, Api, sesión, interceptor, repositorios | ⏳ |
+| 3 | Backend: API FastAPI en proyecto aparte (`GameJamAPI`) | ✅ |
+| 4 | Capa `data`: DTOs, Mappers, Api, sesión, interceptor, repositorios | ✅ |
 | 5 | `AppContainer` + `Application` + Manifest | ⏳ |
 | 6 | UI: Login, Registro y CRUD con Navigation | ⏳ |
 
@@ -41,6 +41,22 @@ Contratos en `domain/repository`: `AuthRepository` (registro, login, sesión) y 
 ## Convenciones
 - Código y nombres de archivo en inglés, descriptivos.
 - Comentarios breves, sin acentos ni caracteres especiales.
+
+## Capa data
+| Paquete | Contenido |
+|---|---|
+| `data/remote/dto` | DTOs `@Serializable` (`AuthDtos`, `GameDtos`); nunca salen de `data` |
+| `data/remote/api` | Interfaces Retrofit `AuthApiService` y `GameApiService` |
+| `data/remote/interceptor` | `AuthInterceptor`: agrega `Authorization: Bearer <token>` |
+| `data/remote/SafeApiCall.kt` | Convierte errores HTTP y de red en `AppException` |
+| `data/local` | `SessionStorage` (abstracción) y `SharedPreferencesSessionStorage` |
+| `data/mapper` | Mappers DTO ↔ dominio (`GameMapper`, `UserMapper`) |
+| `data/repository` | `AuthRepositoryImpl` y `GameRepositoryImpl` |
+
+Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFound` (404), `Conflict` (409), `InvalidData` (400/422), `Network` (sin conexión), `Unknown`. Si `/games` responde 401, la sesión se borra para volver al Login.
+
+## Backend
+La API vive en un proyecto separado, **GameJamAPI** (FastAPI). Desde el emulador se consume en `http://10.0.2.2:8000/`. Cada usuario sólo ve sus propios juegos; las rutas `/games` requieren `Authorization: Bearer <token>`.
 
 ## Dependencias agregadas
 | Librería | Versión | Uso |

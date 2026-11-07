@@ -12,7 +12,29 @@ GameJam/
 │   │   │   │   └── com/
 │   │   │   │       └── zukesito/
 │   │   │   │           └── gamejam/
+│   │   │   │               ├── data/
+│   │   │   │               │   ├── local/
+│   │   │   │               │   │   ├── SessionStorage.kt
+│   │   │   │               │   │   └── SharedPreferencesSessionStorage.kt
+│   │   │   │               │   ├── mapper/
+│   │   │   │               │   │   ├── GameMapper.kt
+│   │   │   │               │   │   └── UserMapper.kt
+│   │   │   │               │   ├── remote/
+│   │   │   │               │   │   ├── api/
+│   │   │   │               │   │   │   ├── AuthApiService.kt
+│   │   │   │               │   │   │   └── GameApiService.kt
+│   │   │   │               │   │   ├── dto/
+│   │   │   │               │   │   │   ├── AuthDtos.kt
+│   │   │   │               │   │   │   └── GameDtos.kt
+│   │   │   │               │   │   ├── interceptor/
+│   │   │   │               │   │   │   └── AuthInterceptor.kt
+│   │   │   │               │   │   └── SafeApiCall.kt
+│   │   │   │               │   └── repository/
+│   │   │   │               │       ├── AuthRepositoryImpl.kt
+│   │   │   │               │       └── GameRepositoryImpl.kt
 │   │   │   │               ├── domain/
+│   │   │   │               │   ├── error/
+│   │   │   │               │   │   └── AppException.kt
 │   │   │   │               │   ├── model/
 │   │   │   │               │   │   ├── Game.kt
 │   │   │   │               │   │   └── User.kt
