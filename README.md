@@ -21,7 +21,7 @@ App Android (Proyecto Unidad 3 · Desarrollo de aplicaciones móviles) con **reg
 | 5 | `AppContainer` + `Application` + Manifest | ✅ |
 | 6a | UI: navegación, Login, Registro y cierre de sesión | ✅ |
 | 6b | UI: lista de juegos (Home) con carga, vacío y error | ✅ |
-| 6c | UI: detalle y eliminar con confirmación | ⏳ |
+| 6c | UI: detalle y eliminar con confirmación | ✅ |
 | 6d | UI: formulario de crear y editar | ⏳ |
 
 ## Dominio
@@ -79,16 +79,18 @@ Errores de dominio (`domain/error/AppException`): `Unauthorized` (401), `NotFoun
 |---|---|
 | `ui/navigation` | Rutas tipadas (`AppRoutes`) y `AppNavHost` |
 | `ui/auth` | Login y Registro (Screen + ViewModel + UiState) y reglas de validación (`AuthValidation`) |
+| `ui/games/detail` | Detalle con todos los atributos (`DetailRow`), eliminar con `DeleteGameDialog` y Snackbar ante errores |
 | `ui/games/list` | Home: `LazyColumn` de juegos (`GameListItem`), estados de carga, vacío y error con reintento, y cierre de sesión |
-| `ui/components` | `FormTextField`, `PasswordTextField`, `LoadingButton`, `ErrorText`, `FullScreenLoading`, `FullScreenMessage`, `FullScreenError` |
-| `ui/common` | `appContainer()` para las factories y `toMessageRes()` para mensajes de error |
+| `ui/components` | `FormTextField`, `PasswordTextField`, `LoadingButton`, `ErrorText`, `FullScreenLoading`, `FullScreenMessage`, `FullScreenError`, `UserMessageEffect` (Snackbar de un solo uso) |
+| `ui/common` | `appContainer()` para las factories, `toMessageRes()` para mensajes de error y `toDisplayText()` para fechas ("15 de octubre de 2026") |
 
 - Cada pantalla tiene un `XScreen` (observa el `StateFlow` con `collectAsStateWithLifecycle`) y un `XContent` sin estado.
 - Los ViewModels reciben el repositorio por constructor y se crean con `viewModelFactory { initializer { … } }`.
 - Al iniciar sesión, registrarse o cerrar sesión se limpia la pila de navegación, así que Atrás no regresa.
 - Si hay sesión guardada, la app abre directo en Home.
 - Home recarga la lista cada vez que vuelve a mostrarse (`ON_RESUME`), así se actualiza después de crear, editar o eliminar.
-- Si la API responde 401 al listar, la sesión se borra y la app vuelve al Login.
+- Si la API responde 401, la sesión se borra y la app vuelve al Login.
+- Retroalimentación (RF-10): al eliminar, el detalle deja un mensaje en el `savedStateHandle` de Home (`KEY_USER_MESSAGE`) y Home lo muestra en un Snackbar. Los errores de recarga o de eliminación también salen en Snackbar.
 - Textos de la interfaz en `res/values/strings.xml`.
 - Paleta oscura inspirada en el cliente de Steam (`ui/theme/Color.kt`); sin modo claro ni color dinámico.
 

@@ -17,6 +17,9 @@
     <string name="action_show">Mostrar</string>
     <string name="action_hide">Ocultar</string>
     <string name="action_retry">Reintentar</string>
+    <string name="action_back">Volver</string>
+    <string name="action_delete">Eliminar</string>
+    <string name="action_cancel">Cancelar</string>
 
     <!-- Titles -->
     <string name="title_register">Crear cuenta</string>
@@ -28,6 +31,19 @@
     <string name="format_rating">%1$d/10</string>
     <string name="status_completed">Terminado</string>
     <string name="status_in_progress">En progreso</string>
+
+    <!-- Game detail -->
+    <string name="title_game_detail">Detalle del juego</string>
+    <string name="label_platform">Plataforma</string>
+    <string name="label_hours_played">Horas jugadas</string>
+    <string name="label_rating">Calificación</string>
+    <string name="label_start_date">Fecha de inicio</string>
+    <string name="label_status">Estado</string>
+    <string name="dialog_delete_title">¿Eliminar juego?</string>
+    <string name="dialog_delete_message">Se eliminará \"%1$s\" de tu bitácora. Esta acción no se puede deshacer.</string>
+
+    <!-- Operation results -->
+    <string name="message_game_deleted">Juego eliminado</string>
 
     <!-- Validation errors -->
     <string name="error_required">Campo obligatorio</string>

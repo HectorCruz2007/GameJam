@@ -33,14 +33,24 @@ class GameListViewModel(
                     _uiState.update { it.copy(games = games, isLoading = false) }
                 }
                 .onFailure { error ->
-                    // The repository already cleared the session on 401
-                    if (error is AppException.Unauthorized) {
-                        _uiState.update { it.copy(isLoading = false, isLoggedOut = true) }
-                    } else {
-                        _uiState.update { it.copy(isLoading = false, errorRes = error.toMessageRes()) }
+                    _uiState.update {
+                        when {
+                            // The repository already cleared the session on 401
+                            error is AppException.Unauthorized ->
+                                it.copy(isLoading = false, isLoggedOut = true)
+                            // Keep the visible list and report the error in a snackbar
+                            it.games.isNotEmpty() ->
+                                it.copy(isLoading = false, userMessageRes = error.toMessageRes())
+                            else ->
+                                it.copy(isLoading = false, errorRes = error.toMessageRes())
+                        }
                     }
                 }
         }
+    }
+
+    fun onUserMessageShown() {
+        _uiState.update { it.copy(userMessageRes = null) }
     }
 
     fun onLogoutClick() {

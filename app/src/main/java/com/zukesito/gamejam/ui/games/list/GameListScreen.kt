@@ -1,5 +1,6 @@
 package com.zukesito.gamejam.ui.games.list
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,12 +12,15 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -31,17 +35,22 @@ import com.zukesito.gamejam.domain.model.Game
 import com.zukesito.gamejam.ui.components.FullScreenError
 import com.zukesito.gamejam.ui.components.FullScreenLoading
 import com.zukesito.gamejam.ui.components.FullScreenMessage
+import com.zukesito.gamejam.ui.components.UserMessageEffect
 import com.zukesito.gamejam.ui.theme.GameJamTheme
 import java.time.LocalDate
 
 // Home screen, lists the games of the user
+// resultMessageRes is feedback sent by another screen, for example after a delete
 @Composable
 fun GameListScreen(
+    @StringRes resultMessageRes: Int?,
+    onResultMessageShown: () -> Unit,
     onGameClick: (Int) -> Unit,
     onLoggedOut: () -> Unit,
     viewModel: GameListViewModel = viewModel(factory = GameListViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     // Reload when the screen comes back, for example after create or edit
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.loadGames() }
@@ -49,9 +58,20 @@ fun GameListScreen(
     LaunchedEffect(uiState.isLoggedOut) {
         if (uiState.isLoggedOut) onLoggedOut()
     }
+    UserMessageEffect(
+        messageRes = resultMessageRes,
+        snackbarHostState = snackbarHostState,
+        onShown = onResultMessageShown
+    )
+    UserMessageEffect(
+        messageRes = uiState.userMessageRes,
+        snackbarHostState = snackbarHostState,
+        onShown = viewModel::onUserMessageShown
+    )
 
     GameListContent(
         uiState = uiState,
+        snackbarHostState = snackbarHostState,
         onGameClick = onGameClick,
         onRetry = viewModel::loadGames,
         onLogoutClick = viewModel::onLogoutClick
@@ -62,6 +82,7 @@ fun GameListScreen(
 @Composable
 private fun GameListContent(
     uiState: GameListUiState,
+    snackbarHostState: SnackbarHostState,
     onGameClick: (Int) -> Unit,
     onRetry: () -> Unit,
     onLogoutClick: () -> Unit
@@ -76,7 +97,8 @@ private fun GameListContent(
                     }
                 }
             )
-        }
+        },
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -127,6 +149,7 @@ private fun GameListContentPreview() {
                 ),
                 isLoading = false
             ),
+            snackbarHostState = remember { SnackbarHostState() },
             onGameClick = {},
             onRetry = {},
             onLogoutClick = {}

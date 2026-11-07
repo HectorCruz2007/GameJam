@@ -61,6 +61,7 @@ GameJam/
 │   │   │   │               │   │   │   └── RegisterViewModel.kt
 │   │   │   │               │   │   └── AuthValidation.kt
 │   │   │   │               │   ├── common/
+│   │   │   │               │   │   ├── DateFormatting.kt
 │   │   │   │               │   │   ├── ErrorMessages.kt
 │   │   │   │               │   │   └── ViewModelExtensions.kt
 │   │   │   │               │   ├── components/
@@ -68,8 +69,15 @@ GameJam/
 │   │   │   │               │   │   ├── FormTextField.kt
 │   │   │   │               │   │   ├── FullScreenStates.kt
 │   │   │   │               │   │   ├── LoadingButton.kt
-│   │   │   │               │   │   └── PasswordTextField.kt
+│   │   │   │               │   │   ├── PasswordTextField.kt
+│   │   │   │               │   │   └── UserMessageEffect.kt
 │   │   │   │               │   ├── games/
+│   │   │   │               │   │   ├── detail/
+│   │   │   │               │   │   │   ├── DeleteGameDialog.kt
+│   │   │   │               │   │   │   ├── DetailRow.kt
+│   │   │   │               │   │   │   ├── GameDetailScreen.kt
+│   │   │   │               │   │   │   ├── GameDetailUiState.kt
+│   │   │   │               │   │   │   └── GameDetailViewModel.kt
 │   │   │   │               │   │   └── list/
 │   │   │   │               │   │       ├── GameListItem.kt
 │   │   │   │               │   │       ├── GameListScreen.kt
@@ -77,7 +85,8 @@ GameJam/
 │   │   │   │               │   │       └── GameListViewModel.kt
 │   │   │   │               │   ├── navigation/
 │   │   │   │               │   │   ├── AppNavHost.kt
-│   │   │   │               │   │   └── AppRoutes.kt
+│   │   │   │               │   │   ├── AppRoutes.kt
+│   │   │   │               │   │   └── NavigationResults.kt
 │   │   │   │               │   └── theme/
 │   │   │   │               │       ├── Color.kt
 │   │   │   │               │       ├── Theme.kt

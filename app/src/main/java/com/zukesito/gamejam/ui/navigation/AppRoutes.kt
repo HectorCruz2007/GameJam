@@ -12,3 +12,6 @@ data object RegisterRoute
 
 @Serializable
 data object GameListRoute
+
+@Serializable
+data class GameDetailRoute(val gameId: Int)

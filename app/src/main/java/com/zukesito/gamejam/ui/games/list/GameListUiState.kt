@@ -7,6 +7,7 @@ data class GameListUiState(
     val games: List<Game> = emptyList(),
     val isLoading: Boolean = true,
     @StringRes val errorRes: Int? = null,
+    @StringRes val userMessageRes: Int? = null,
     val isLoggedOut: Boolean = false
 ) {
     // Empty only after a successful load with no games
